@@ -3,6 +3,43 @@ import cloneWithProps from 'react/lib/cloneWithProps';
 import assign from 'react/lib/Object.assign';
 import Events from './events';
 
+// @see https://developers.google.com/maps/documentation/javascript/reference#MapOptions 
+let gmapsMapOptionProperties = [
+  'backgroundColor',
+  'center',
+  'disableDefaultUI',
+  'disableDoubleClickZoom',
+  'draggable',
+  'draggableCursor',
+  'draggingCursor',
+  'heading',
+  'keyboardShortcuts',
+  'mapMaker',
+  'mapTypeControl',
+  'mapTypeControlOptions',
+  'mapTypeId',
+  'maxZoom',
+  'minZoom',
+  'noClear',
+  'overviewMapControl',
+  'overviewMapControlOptions',
+  'panControl',
+  'panControlOptions',
+  'rotateControl',
+  'rotateControlOptions',
+  'scaleControl',
+  'scaleControlOptions',
+  'scrollwheel',
+  'streetView',
+  'streetViewControl',
+  'streetViewControlOptions',
+  'styles',
+  'tilt',
+  'zoom',
+  'zoomControl',
+  'zoomControlOptions'
+];
+
 let Gmaps = React.createClass({
 
   map: null,
@@ -57,6 +94,18 @@ let Gmaps = React.createClass({
   },
 
   createMap() {
+    let propKeys = Object.keys(this.props);
+    let mapOptions = {
+      center: new google.maps.LatLng(this.props.lat, this.props.lng),
+      zoom: this.props.zoom
+    };
+
+    propKeys.forEach(function (key) {
+      if (~gmapsMapOptionProperties.indexOf(key)) {
+        mapOptions[key] = this.props[key];
+      }
+    });
+
     this.map = new google.maps.Map(this.getDOMNode(), {
       center: new google.maps.LatLng(this.props.lat, this.props.lng),
       zoom: this.props.zoom
