@@ -19,6 +19,10 @@ let Gmaps = React.createClass({
   componentWillUnmount() {
     this.unbindEvents();
   },
+
+  componentWillReceiveProps: (nextProps) {
+    this.createChildren(nextProps);
+  },
   
   render() {
     let style = assign({
@@ -48,7 +52,7 @@ let Gmaps = React.createClass({
   mapsCallback() {
     delete window.mapsCallback;
     this.createMap();
-    this.createChildren();
+    this.createChildren(this.props);
     this.bindEvents();
   },
 
@@ -62,8 +66,8 @@ let Gmaps = React.createClass({
     }
   },
 
-  createChildren() {
-    let children = React.Children.map(this.props.children, (child) => {
+  createChildren(props) {
+    let children = React.Children.map(props.children, (child) => {
       if (!React.isValidElement(child)) {
         return child;
       }
