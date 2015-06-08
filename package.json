@@ -19,7 +19,9 @@
     "Google Maps",
     "react-component"
   ],
-  "author": "Michele Bertoli",
+  "author": {
+    "name": "Michele Bertoli"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/MicheleBertoli/react-gmaps/issues"
@@ -43,10 +45,34 @@
     ]
   },
   "jest": {
-    "testPathDirs": ["./src"],
+    "testPathDirs": [
+      "./src"
+    ],
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react"
     ]
-  }
+  },
+  "gitHead": "2d38c40362ce9838d1d729831635d7411ea1b2cb",
+  "_id": "react-gmaps@0.1.6",
+  "_shasum": "8e787f9a288897ddc76d0ef634df53c4f7655e59",
+  "_from": "react-gmaps@*",
+  "_npmVersion": "2.6.1",
+  "_nodeVersion": "0.10.33",
+  "_npmUser": {
+    "name": "michelebertoli",
+    "email": "michele@berto.li"
+  },
+  "maintainers": [
+    {
+      "name": "michelebertoli",
+      "email": "michele@berto.li"
+    }
+  ],
+  "dist": {
+    "shasum": "8e787f9a288897ddc76d0ef634df53c4f7655e59",
+    "tarball": "http://registry.npmjs.org/react-gmaps/-/react-gmaps-0.1.6.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/react-gmaps/-/react-gmaps-0.1.6.tgz"
 }
