@@ -10,6 +10,43 @@ var assign = _interopRequire(require("react/lib/Object.assign"));
 
 var Events = _interopRequire(require("./events"));
 
+// @see https://developers.google.com/maps/documentation/javascript/reference#MapOptions 
+var gmapsMapOptionProperties = [
+  'backgroundColor',
+  'center',
+  'disableDefaultUI',
+  'disableDoubleClickZoom',
+  'draggable',
+  'draggableCursor',
+  'draggingCursor',
+  'heading',
+  'keyboardShortcuts',
+  'mapMaker',
+  'mapTypeControl',
+  'mapTypeControlOptions',
+  'mapTypeId',
+  'maxZoom',
+  'minZoom',
+  'noClear',
+  'overviewMapControl',
+  'overviewMapControlOptions',
+  'panControl',
+  'panControlOptions',
+  'rotateControl',
+  'rotateControlOptions',
+  'scaleControl',
+  'scaleControlOptions',
+  'scrollwheel',
+  'streetView',
+  'streetViewControl',
+  'streetViewControlOptions',
+  'styles',
+  'tilt',
+  'zoom',
+  'zoomControl',
+  'zoomControlOptions'
+];
+
 var Gmaps = React.createClass({
   displayName: "Gmaps",
 
@@ -22,6 +59,10 @@ var Gmaps = React.createClass({
 
   componentDidMount: function componentDidMount() {
     this.loadMaps();
+  },
+
+  componentWillReceiveProps: function (nextProps) {
+    this.createChildren(nextProps);
   },
 
   componentWillUnmount: function componentWillUnmount() {
@@ -56,24 +97,34 @@ var Gmaps = React.createClass({
   mapsCallback: function mapsCallback() {
     delete window.mapsCallback;
     this.createMap();
-    this.createChildren();
+    this.createChildren(this.props);
     this.bindEvents();
   },
 
   createMap: function createMap() {
-    this.map = new google.maps.Map(this.getDOMNode(), {
+    var propKeys = Object.keys(this.props);
+    var mapOptions = {
       center: new google.maps.LatLng(this.props.lat, this.props.lng),
       zoom: this.props.zoom
-    });
+    };
+
+    for (var i = 0; i < propKeys.length; i++) {
+      var key = propKeys[i];
+
+      if (~gmapsMapOptionProperties.indexOf(key)) {
+        mapOptions[key] = this.props[key];
+      }
+    }
+    this.map = new google.maps.Map(this.getDOMNode(), mapOptions);
     if (this.props.onMapCreated) {
       this.props.onMapCreated();
     }
   },
 
-  createChildren: function createChildren() {
+  createChildren: function createChildren(props) {
     var _this = this;
 
-    var children = React.Children.map(this.props.children, function (child) {
+    var children = React.Children.map(props.children, function (child) {
       if (!React.isValidElement(child)) {
         return child;
       }
